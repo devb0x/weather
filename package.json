@@ -13,6 +13,7 @@
   "author": "devb0x",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "lite-server": "^2.6.1"
   }
 }
