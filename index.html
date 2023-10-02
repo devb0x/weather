@@ -5,52 +5,57 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="styles.css">
 	<title>Weather</title>
-	<script src="script.js" defer></script>
+	<script src="script.js" defer type="module"></script>
 </head>
 <body>
 	<main>
+		<form id="form">
+			<label for="city">city</label>
+			<input type="text" id="city">
+		</form>
+		
 		<div class="city-name">
-			<h1>London</h1>
+			<h1 class="city-name-title">London</h1>
 		</div>
 		
 		<div class="city-main">
 			<div class="city-main-temp">
-				16°
+				current: 16°
 			</div>
 			<div class="city-main-temp__lower">
-				12°
+				min: 12°
 			</div>
 			<div class="city-main-temp__higher">
-				17°
+				max: 17°
 			</div>
 		</div>
 		
 		<div class="city-data">
-			<img src="" alt="humidity">
+			<img src="./assets/icons/humidity.svg" alt="humidity" class="icon">
 			<div class="city-data-humidity">
 				44%
 			</div>
 		</div>
 		<div>
-			<img src="" alt="wind">
+			<img src="./assets/icons/wind.svg" alt="wind" class="icon">
 			<div class="city-data-wind">
 				16km/h
 			</div>
 		</div>
 		<div>
-			<img src="" alt="weather">
+			<img src="" alt="weather" class="icon">
 			<div class="city-data-weather">
 				Scattered clouds
 			</div>
 		</div>
 		<div>
-			<img src="" alt="sunrise">
+			<img src="./assets/icons/sunrise.svg" alt="sunrise" class="icon">
 			<div class="city-data-sunrise">
 				07h42
 			</div>
 		</div>
 		<div>
-			<img src="" alt="sunset">
+			<img src="./assets/icons/sunset.svg" alt="sunset" class="icon">
 			<div class="city-data-sunset">
 				19h51
 			</div>
