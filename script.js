@@ -23,19 +23,29 @@ async function fetchWeather()  {
 	throw new Error(response.error.message)
 }
 
+const getDate = (dt, timezone) => {
+	const utc_seconds = parseInt(dt, 10) + parseInt(timezone, 10);
+	const utc_milliseconds = utc_seconds * 1000;
+	const local_date = new Date(utc_milliseconds).toUTCString();
+	return local_date;
+}
+
 const updateDisplay = (data) => {
-	let sunriseDate = new Date(data.sys.sunrise * 1000)
-	let sunsetDate = new Date(data.sys.sunset * 1000)
+	let diff = data.timezone * 1000
+	let sunrise = new Date(data.sys.sunrise * 1000 + diff)
+	let sunset = new Date(data.sys.sunset * 1000 + diff)
+	let sunriseTime = z(sunrise.getUTCHours()) + ':' + z(sunrise.getUTCMinutes())
+	let sunsetTime = z(sunset.getUTCHours()) + ':' + z(sunset.getUTCMinutes())
 
 	cityNameH1.innerText = data.name
-	cityTempDiv.innerText = data.main.temp
-	cityTempMinDiv.innerText = 'min: ' + data.main.temp_min
-	cityTempMaxDiv.innerText = 'max: ' + data.main.temp_max
+	cityTempDiv.innerText = Math.round(data.main.temp)
+	cityTempMinDiv.innerText = 'min: ' + Math.round(data.main.temp_min)
+	cityTempMaxDiv.innerText = 'max: ' + Math.round(data.main.temp_max)
 	cityHumidityDiv.innerText = data.main.humidity + '%'
 	cityDataWindDiv.innerText = data.wind.speed
 	cityDataWeatherDiv.innerText = data.weather[0].description
-	cityDataSunriseDiv.innerText = sunriseDate.getHours() + 'h' + (sunriseDate.getMinutes() < 10 ? '0' : '') + sunriseDate.getMinutes()
-	cityDataSunsetDiv.innerText = sunsetDate.getHours() + 'h' + (sunsetDate.getMinutes() < 10 ? '0' : '') + sunsetDate.getMinutes()
+	cityDataSunriseDiv.innerText = sunriseTime
+	cityDataSunsetDiv.innerText = sunsetTime
 }
 
 form.addEventListener('submit', (e) => {
@@ -48,5 +58,9 @@ city.addEventListener('input', (e) => {
 	search = e?.target.value
 })
 
-fetchWeather(search = 'London')
+function z(n) {
+	return ('0' + n).slice(-2);
+}
+
+fetchWeather(search = 'Paris')
 
