@@ -1,5 +1,7 @@
 const form = document.getElementById('form')
-const city = document.getElementById('city')
+const cityInput = document.getElementById('city')
+
+const formLabel = document.querySelector('#formLabel')
 
 const cityNameH1 = document.querySelector('.city-name-title')
 const cityTempDiv = document.querySelector('.city-main-temp')
@@ -18,17 +20,22 @@ async function fetchWeather()  {
 	const data = await response.json()
 
 	if (response.ok === true) {
+		toggleInput(cityInput)
 		return updateDisplay(data)
 	}
 	throw new Error(response.error.message)
 }
 
-const getDate = (dt, timezone) => {
-	const utc_seconds = parseInt(dt, 10) + parseInt(timezone, 10);
-	const utc_milliseconds = utc_seconds * 1000;
-	const local_date = new Date(utc_milliseconds).toUTCString();
-	return local_date;
+const toggleInput = (cityInput) => {
+	cityInput.classList.toggle('hidden')
 }
+
+// const getDate = (dt, timezone) => {
+// 	const utc_seconds = parseInt(dt, 10) + parseInt(timezone, 10);
+// 	const utc_milliseconds = utc_seconds * 1000;
+// 	const local_date = new Date(utc_milliseconds).toUTCString();
+// 	return local_date;
+// }
 
 const updateDisplay = (data) => {
 	let diff = data.timezone * 1000
@@ -48,15 +55,20 @@ const updateDisplay = (data) => {
 	cityDataSunsetDiv.innerText = sunsetTime
 }
 
+formLabel.addEventListener('click', (e) => {
+	toggleInput(cityInput)
+})
+
+cityInput.addEventListener('input', (e) => {
+	e.preventDefault()
+	search = e?.target.value
+})
+
 form.addEventListener('submit', (e) => {
 	e.preventDefault()
 	return fetchWeather(search)
 })
 
-city.addEventListener('input', (e) => {
-	e.preventDefault()
-	search = e?.target.value
-})
 
 function z(n) {
 	return ('0' + n).slice(-2);
