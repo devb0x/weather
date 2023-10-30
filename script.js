@@ -1,8 +1,6 @@
 const form = document.getElementById('form')
 const cityInput = document.getElementById('city')
-
 const formLabel = document.querySelector('#formLabel')
-
 const cityNameH1 = document.querySelector('.city-name-title')
 const cityTempDiv = document.querySelector('.city-main-temp')
 const cityTempMinDiv = document.querySelector('.city-main-temp__lower')
@@ -20,7 +18,6 @@ async function fetchWeather()  {
 	const data = await response.json()
 
 	if (response.ok === true) {
-		toggleInput(cityInput)
 		return updateDisplay(data)
 	}
 	throw new Error(response.error.message)
@@ -29,13 +26,6 @@ async function fetchWeather()  {
 const toggleInput = (cityInput) => {
 	cityInput.classList.toggle('hidden')
 }
-
-// const getDate = (dt, timezone) => {
-// 	const utc_seconds = parseInt(dt, 10) + parseInt(timezone, 10);
-// 	const utc_milliseconds = utc_seconds * 1000;
-// 	const local_date = new Date(utc_milliseconds).toUTCString();
-// 	return local_date;
-// }
 
 const updateDisplay = (data) => {
 	let diff = data.timezone * 1000
@@ -55,6 +45,7 @@ const updateDisplay = (data) => {
 	cityDataSunsetDiv.innerText = sunsetTime
 }
 
+
 formLabel.addEventListener('click', (e) => {
 	toggleInput(cityInput)
 })
@@ -66,13 +57,19 @@ cityInput.addEventListener('input', (e) => {
 
 form.addEventListener('submit', (e) => {
 	e.preventDefault()
+	toggleInput(cityInput)
 	return fetchWeather(search)
 })
 
-
+/**
+ * This function is used to render the time correctly and
+ * displaying the 0, e.g: 07:09 instead of 7:9
+ * @param n
+ * @returns {string}
+ */
 function z(n) {
 	return ('0' + n).slice(-2);
 }
 
-fetchWeather(search = 'Paris')
+await fetchWeather(search = 'Dallas')
 
